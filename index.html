@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Galería de Imágenes de Porsche</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+        }
+
+        button.active {
+            background-color: #0056b3;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .image-item {
+            text-align: center;
+        }
+
+        .grid-image {
+            width: 200px; /* Tamaño uniforme */
+            height: 200px; /* Tamaño uniforme */
+            transition: transform 0.3s;
+            object-fit: cover; /* Asegura que la imagen se ajuste sin deformarse */
+        }
+
+        .grid-image.circular {
+            border-radius: 50%;
+        }
+
+        .grid-image.square {
+            border-radius: 0; /* Sin esquinas redondeadas */
+        }
+
+        .grid-image.portrait {
+            border-radius: 0; /* Sin esquinas redondeadas */
+            height: 267px; /* Ajuste para mantener la proporción 3:4 */
+        }
+
+        .message {
+            text-align: center;
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <h1>Galería de Imágenes de Porsche</h1>
+    
+    <div class="button-container">
+        <button id="two-columns" class="active">Grid de 2 columnas</button>
+        <button id="three-columns">Grid de 3 columnas variables</button>
+        <button id="circular">Circulares</button>
+        <button id="square">Cuadrado</button>
+        <button id="portrait">Retrato</button>
+    </div>
+    
+    <div class="image-grid" id="imageGrid">
+        <div class="image-item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/Porsche_991_silver_IAA.jpg" class="grid-image" alt="Porsche 991">
+            <p class="car-name">Porsche 991</p>
+        </div>
+        <div class="image-item">
+            <img src="https://cdn.topgear.es/sites/navi.axelspringer.es/public/media/image/2022/11/manhart-991-gt2-rs-2874893.jpg" class="grid-image" alt="Manhart 991 GT2 RS">
+            <p class="car-name">Manhart 991 GT2 RS</p>
+        </div>
+        <div class="image-item">
+            <img src="https://cdn.motor1.com/images/mgl/Oo3xke/s3/mansory-p9lm-evo-900-porsche-911-turbo-s.jpg" class="grid-image" alt="Mansory Porsche 911 Turbo S">
+            <p class="car-name">Mansory Porsche 911 Turbo S</p>
+        </div>
+        <div class="image-item">
+            <img src="https://www.suncoastparts.com/mm5/graphics/00000002/11/M01_GT3RS_MR_34Front_wf06_JDM_huge%20copy.jpg" class="grid-image" alt="Manthey Racing Package">
+            <p class="car-name">Manthey Racing Package</p>
+        </div>
+        <div class="image-item">
+            <img src="https://newsroom.porsche.com/.imaging/mte/porsche-templating-theme/image_1290x726/dam/pnr/2024/Products/992-II/0840_nevada_coupe_u-crane_AKOS0607_edit_V03-sky.jpg/jcr:content/0840_nevada_coupe_u-crane_AKOS0607_edit_V03-sky.jpg" class="grid-image" alt="Estreno mundial del nuevo Porsche 911 - Porsche Newsroom ESP">
+            <p class="car-name">Nuevo Porsche 911</p>
+        </div>
+        <div class="image-item">
+            <img src="https://autosdeprimera.com/wp-content/uploads/2023/09/porsche-911-gt3-r-rennsport-a.jpg" class="grid-image" alt="Porsche 911 GT3 R Rennsport">
+            <p class="car-name">Porsche 911 GT3 R Rennsport</p>
+        </div>
+    </div>
+
+    <div class="message" id="message"></div>
+
+    <script>
+        const twoColumnsButton = document.getElementById('two-columns');
+        const threeColumnsButton = document.getElementById('three-columns');
+        const circularButton = document.getElementById('circular');
+        const squareButton = document.getElementById('square');
+        const portraitButton = document.getElementById('portrait');
+        const imageGrid = document.getElementById('imageGrid');
+        const messageBox = document.getElementById('message');
+        const images = imageGrid.getElementsByClassName('grid-image');
+        const names = document.getElementsByClassName('car-name');
+
+        const imageArray = [
+            {
+                src: "https://upload.wikimedia.org/wikipedia/commons/b/b8/Porsche_991_silver_IAA.jpg",
+                name: "Porsche 991"
+            },
+            {
+                src: "https://cdn.topgear.es/sites/navi.axelspringer.es/public/media/image/2022/11/manhart-991-gt2-rs-2874893.jpg",
+                name: "Manhart 991 GT2 RS"
+            },
+            {
+                src: "https://cdn.motor1.com/images/mgl/Oo3xke/s3/mansory-p9lm-evo-900-porsche-911-turbo-s.jpg",
+                name: "Mansory Porsche 911 Turbo S"
+            },
+            {
+                src: "https://www.suncoastparts.com/mm5/graphics/00000002/11/M01_GT3RS_MR_34Front_wf06_JDM_huge%20copy.jpg",
+                name: "Manthey Racing Package"
+            },
+            {
+                src: "https://newsroom.porsche.com/.imaging/mte/porsche-templating-theme/image_1290x726/dam/pnr/2024/Products/992-II/0840_nevada_coupe_u-crane_AKOS0607_edit_V03-sky.jpg/jcr:content/0840_nevada_coupe_u-crane_AKOS0607_edit_V03-sky.jpg",
+                name: "Nuevo Porsche 911"
+            },
+            {
+                src: "https://autosdeprimera.com/wp-content/uploads/2023/09/porsche-911-gt3-r-rennsport-a.jpg",
+                name: "Porsche 911 GT3 R Rennsport"
+            }
+        ];
+
+        let activeStyle = '';
+
+        function updateActiveButton(newButton) {
+            const buttons = [twoColumnsButton, threeColumnsButton, circularButton, squareButton, portraitButton];
+            buttons.forEach(button => button.classList.remove('active'));
+            newButton.classList.add('active');
+        }
+
+        twoColumnsButton.addEventListener('click', () => {
+            imageGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+            updateActiveButton(twoColumnsButton);
+        });
+
+        threeColumnsButton.addEventListener('click', () => {
+            imageGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
+            updateActiveButton(threeColumnsButton);
+        });
+
+        circularButton.addEventListener('click', () => {
+            activeStyle = activeStyle === 'circular' ? '' : 'circular';
+            updateImagesStyle();
+            updateActiveButton(circularButton);
+        });
+
+        squareButton.addEventListener('click', () => {
+            activeStyle = activeStyle === 'square' ? '' : 'square';
+            updateImagesStyle();
+            updateActiveButton(squareButton);
+        });
+
+        portraitButton.addEventListener('click', () => {
+            activeStyle = activeStyle === 'portrait' ? '' : 'portrait';
+            updateImagesStyle();
+            updateActiveButton(portraitButton);
+        });
+
+        function updateImagesStyle() {
+            for (let img of images) {
+                img.classList.remove('circular', 'square', 'portrait');
+                img.style.height = '200px'; // Mantener altura constante
+                if (activeStyle) {
+                    img.classList.add(activeStyle);
+                }
+            }
+        }
+
+        for (let i = 0; i < images.length; i++) {
+            images[i].addEventListener('click', () => {
+                const randomIndex = Math.floor(Math.random() * imageArray.length);
+                images[i].src = imageArray[randomIndex].src; // Cambiar a una imagen aleatoria
+                names[i].textContent = imageArray[randomIndex].name; // Actualizar el nombre
+                showMessage('Imagen cambiada!');
+            });
+        }
+
+        function showMessage(message) {
+            messageBox.textContent = message;
+            messageBox.style.opacity = 1;
+            setTimeout(() => {
+                messageBox.style.opacity = 0;
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
